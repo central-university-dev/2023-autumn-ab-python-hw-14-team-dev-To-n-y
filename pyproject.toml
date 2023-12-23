@@ -3,20 +3,33 @@ requires = ["setuptools>=68.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "homework_10"
+name = "homework_14"
 version = "0.0.1"
 authors = [
   { name="Dmitry Kosarevsky", email="if@kosarevsky.ru" },
 ]
 description = "A Tinkoff Python AB hw-10 package"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 
-[project.urls]
-"Homepage" = "https://github.com/central-university-dev/python-hw-10-template"
-"Bug Tracker" = "https://github.com/central-university-dev/python-hw-10-template/issues"
+[tool.poetry]
+name = "2023-autumn-ab-python-hw-14-team-dev"
+version = "0.1.0"
+description = ""
+authors = [""]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+alembic = "^1.13.1"
+python-dotenv = "^1.0.0"
+psycopg2 = "^2.9.9"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+
