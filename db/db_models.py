@@ -16,11 +16,11 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=False)
 
 
-class Comment(Base):
+class Subscriber(Base):
     __tablename__ = 'subscriptions'
 
     id = Column(Integer, primary_key=True)
-    main_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # на кого подписался
+    owner_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # на кого подписался
     subscriber_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # подписчик
 
 
