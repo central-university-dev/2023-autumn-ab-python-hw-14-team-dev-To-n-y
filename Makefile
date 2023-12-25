@@ -1,11 +1,11 @@
-CODE_FOLDERS := apps service clients db
+CODE_FOLDERS := app
 TEST_FOLDERS := tests
 
 .PHONY: run migration db_upgrade test lint format
 
 
 format:
-	isort $(CODE_FOLDERS) $(TEST_FOLDERS)
+	poetry run isort $(CODE_FOLDERS) $(TEST_FOLDERS)
 	poetry run black --line-length 79 --skip-string-normalization --extend-exclude="protos" $(CODE_FOLDERS) $(TEST_FOLDERS)
 
 

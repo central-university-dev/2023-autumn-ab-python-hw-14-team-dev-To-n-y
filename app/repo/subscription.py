@@ -5,26 +5,51 @@ from db.db_models import Subscription, User
 
 
 class SubscriptionRepo:
-    def get_all_subscribers(self, owner_id: int) -> list[Optional[User]]:  # все подписчики
+    def get_all_subscribers(
+        self, owner_id: int
+    ) -> list[Optional[User]]:  # все подписчики
         session = connect_db()
-        users = session.query(User).join(Subscription, Subscription.subscriber_id == User.id).filter(
-            Subscription.owner_id == owner_id).distinct().all()
-        return users
-
-    def get_all_owners(self, subscriber_id: int) -> list[Optional[User]]:  # все на кого он подписан
-        session = connect_db()
-        users = session.query(User).join(Subscription, Subscription.owner_id == User.id).filter(
-            Subscription.subscriber_id == subscriber_id).distinct().all()
-        return users
-
-    def create_subscription(
-            self, owner_id: int, subscriber_id: int
-    ) -> int:
-        new_subscription = Subscription(
-            owner_id=owner_id,
-            subscriber_id=subscriber_id
+        users = (
+            session.query(User)
+            .join(Subscription, Subscription.subscriber_id == User.id)
+            .filter(Subscription.owner_id == owner_id)
+            .distinct()
+            .all()
         )
+        return users
+
+    def get_all_owners(
+        self, subscriber_id: int
+    ) -> list[Optional[User]]:  # все на кого он подписан
         session = connect_db()
+        users = (
+            session.query(User)
+            .join(Subscription, Subscription.owner_id == User.id)
+            .filter(Subscription.subscriber_id == subscriber_id)
+            .distinct()
+            .all()
+        )
+        return users
+
+    def create_subscription(self, owner_id: int, subscriber_id: int) -> int:
+        if owner_id == subscriber_id:
+            return -3  # нельзя подписаться на себя
+        session = connect_db()
+        try:
+            subscription = (
+                session.query(Subscription)
+                .filter(Subscription.owner_id == owner_id)
+                .filter(Subscription.subscriber_id == subscriber_id)
+                .first()
+            )
+        except Exception:
+            return -2
+        if subscription is not None:
+            return -1
+        new_subscription = Subscription(
+            owner_id=owner_id, subscriber_id=subscriber_id
+        )
+
         try:
             session.add(new_subscription)
             session.commit()
@@ -33,20 +58,19 @@ class SubscriptionRepo:
         new_subscription_id = new_subscription.id
         return new_subscription_id
 
-    def delete_subscription(self, owner_id: int, subscriber_id: int) -> Optional[int]:
+    def delete_subscription(
+        self, owner_id: int, subscriber_id: int
+    ) -> Optional[int]:
         session = connect_db()
-        subscriptions = (
+        subscription = (
             session.query(Subscription)
-            .filter(Subscription.owner_id == owner_id).filter(Subscription.subscriber_id == subscriber_id)
-            .all()
+            .filter(Subscription.owner_id == owner_id)
+            .filter(Subscription.subscriber_id == subscriber_id)
+            .first()
         )
-        if len(subscriptions) > 0:
-            for subscription in subscriptions:
-                session.delete(subscription)
+        if subscription is not None:
+            session.delete(subscription)
             session.commit()
-            return len(subscriptions)
+            deleted_subscription_id = subscription.id
+            return deleted_subscription_id
         return None
-
-# print(SubscriptionRepo().delete_subscription(owner_id=1, subscriber_id=6))
-# print(SubscriptionRepo().get_all_owners(6)[0].id)
-# print(SubscriptionRepo().create_subscription(owner_id=1, subscriber_id=1))

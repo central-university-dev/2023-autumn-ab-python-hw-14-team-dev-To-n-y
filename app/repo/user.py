@@ -17,9 +17,7 @@ class UserRepo:
         user = session.query(User).filter(User.email == user_email).first()
         return user
 
-    def create_user(
-            self, username: str, password: str, email: str
-    ) -> int:
+    def create_user(self, username: str, password: str, email: str) -> int:
         new_user = User(
             username=username,
             password=password,
@@ -38,24 +36,18 @@ class UserRepo:
 
     def delete_user(self, user_id: int) -> Optional[int]:
         session = connect_db()
-        user = (
-            session.query(User)
-            .filter(User.id == user_id)
-            .first()
-        )
+        user = session.query(User).filter(User.id == user_id).first()
         if user is not None:
             session.delete(user)
             session.commit()
             return user_id
         return None
 
-    def update_user(self, user_id, username: str, password: str, email: str) -> Optional[int]:
+    def update_user(
+        self, user_id, username: str, password: str, email: str
+    ) -> Optional[int]:
         session = connect_db()
-        user = (
-            session.query(User)
-            .filter(User.id == user_id)
-            .first()
-        )
+        user = session.query(User).filter(User.id == user_id).first()
         if user is not None:
             user.username = username
             user.password = password
@@ -67,7 +59,3 @@ class UserRepo:
                 return -2
             return user_id
         return None
-
-
-# print(UserRepo().update_user(user_id=6, username='name', email='email', password='qwerty33'))
-# print(UserRepo().delete_user(2))
