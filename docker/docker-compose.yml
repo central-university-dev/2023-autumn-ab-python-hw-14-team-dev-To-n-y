@@ -1,14 +1,24 @@
-version: '3.8'
+version: "3.8"
+
 services:
-  postgres:
-    image: postgres
-    container_name: postgres_container
+  db:
+    image: postgres:16.1
+    container_name: "postgres_db"
+    volumes:
+      - ./pgdata/:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+      - .env
     networks:
-      - internal
-    environment:
-      POSTGRES_PASSWORD: "qwerty"
+      - postgres-network
 
 
 networks:
-  internal:
+  postgres-network:
     driver: bridge
+
+volumes:
+  pgdata:
+  pgadmin-data:

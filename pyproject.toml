@@ -2,27 +2,18 @@
 requires = ["setuptools>=68.1"]
 build-backend = "setuptools.build_meta"
 
-[project]
-name = "homework_14"
-version = "0.0.1"
-authors = [
-  { name="Dmitry Kosarevsky", email="if@kosarevsky.ru" },
-]
+
+[tool.poetry]
+name = "hw-14-team-dev"
+version = "0.1.0"
 description = "A Tinkoff Python AB hw-10 package"
+authors = ["Danila <danilaprig@gmail.com>", "Vitali <realvitl@yandex.ru>"]
 readme = "README.md"
-requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-[tool.poetry]
-name = "2023-autumn-ab-python-hw-14-team-dev"
-version = "0.1.0"
-description = ""
-authors = [""]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -33,4 +24,17 @@ psycopg2 = "^2.9.9"
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"
 isort = "^5.13.2"
+flake8 = "^6.1.0"
+pylint = "^3.0.3"
+mypy = "^1.8.0"
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+sqlalchemy-utils = "^0.41.1"
 
+[tool.black]
+line-length = 79
+skip-string-normalization = true
+extend-exclude = "protos"
+
+[tool.flake8]
+ban-todos = true

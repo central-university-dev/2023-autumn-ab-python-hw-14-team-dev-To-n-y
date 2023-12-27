@@ -5,8 +5,9 @@ from db.db_models import Subscription, User
 
 
 class SubscriptionRepo:
+    @staticmethod
     def get_all_subscribers(
-        self, owner_id: int
+        owner_id: int,
     ) -> list[Optional[User]]:  # все подписчики
         session = connect_db()
         users = (
@@ -18,8 +19,9 @@ class SubscriptionRepo:
         )
         return users
 
+    @staticmethod
     def get_all_owners(
-        self, subscriber_id: int
+        subscriber_id: int,
     ) -> list[Optional[User]]:  # все на кого он подписан
         session = connect_db()
         users = (
@@ -31,9 +33,12 @@ class SubscriptionRepo:
         )
         return users
 
-    def create_subscription(self, owner_id: int, subscriber_id: int) -> int:
+    @staticmethod
+    def create_subscription(
+        owner_id: int, subscriber_id: int
+    ) -> Optional[int]:
         if owner_id == subscriber_id:
-            return -3  # нельзя подписаться на себя
+            raise ValueError("Attempt to subscribe on itself")
         session = connect_db()
         try:
             subscription = (
@@ -42,8 +47,8 @@ class SubscriptionRepo:
                 .filter(Subscription.subscriber_id == subscriber_id)
                 .first()
             )
-        except Exception:
-            return -2
+        except ConnectionError as exc:  # ошибка соединения с бд
+            raise ConnectionError("Error while connecting to db") from exc
         if subscription is not None:
             return -1
         new_subscription = Subscription(
@@ -53,13 +58,14 @@ class SubscriptionRepo:
         try:
             session.add(new_subscription)
             session.commit()
-        except Exception:  # ошибка соединения с бд
-            return -2
-        new_subscription_id = new_subscription.id
-        return new_subscription_id
+            new_subscription_id = int(new_subscription.id)
+            return new_subscription_id
+        except ConnectionError as exc:
+            raise ConnectionError("Error while connecting to db") from exc
 
+    @staticmethod
     def delete_subscription(
-        self, owner_id: int, subscriber_id: int
+        owner_id: int, subscriber_id: int
     ) -> Optional[int]:
         session = connect_db()
         subscription = (
