@@ -9,6 +9,7 @@ run:
 format:
 	poetry run black --line-length 79 --skip-string-normalization $(CODE_FOLDERS) $(TEST_FOLDERS)
 	poetry run isort --profile black $(CODE_FOLDERS) $(TEST_FOLDERS)
+	poetry run ruff check --fix-only $(CODE_FOLDERS) $(TEST_FOLDERS)
 
 test:
 	poetry run pytest $(TEST_FOLDERS)
@@ -16,6 +17,7 @@ test:
 lint:
 	isort --profile black --check $(CODE_FOLDERS) $(TEST_FOLDERS)
 	black --check --line-length 79 --skip-string-normalization $(CODE_FOLDERS) $(TEST_FOLDERS)
+	ruff check $(CODE_FOLDERS) $(TEST_FOLDERS)
 	flake8 $(CODE_FOLDERS) $(TEST_FOLDERS)
 	pylint $(CODE_FOLDERS) $(TEST_FOLDERS)
 	mypy --install-types --non-interactive $(CODE_FOLDERS)
