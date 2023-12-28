@@ -49,8 +49,15 @@
 
 # **TASKS:**
 
+### `TASK-1`
+   - Add database models
+   - Add repo layer
+
 ### `TASK-3`
    - Add lint command to make
    - add mypy, flake8 and pylint checks
    - Format all files to satisfy linters
    - Write tests for /app/repo
+
+### `TASK-5`
+   - Add all handlers implementation
