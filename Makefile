@@ -16,7 +16,7 @@ test:
 
 lint:
 	isort --profile black --check $(CODE_FOLDERS) $(TEST_FOLDERS)
-	black --check --line-length 79 --skip-string-normalization $(CODE_FOLDERS) $(TEST_FOLDERS)
+	black --check $(CODE_FOLDERS) $(TEST_FOLDERS)
 	ruff check $(CODE_FOLDERS) $(TEST_FOLDERS)
 	flake8 $(CODE_FOLDERS) $(TEST_FOLDERS)
 	pylint $(CODE_FOLDERS) $(TEST_FOLDERS)
