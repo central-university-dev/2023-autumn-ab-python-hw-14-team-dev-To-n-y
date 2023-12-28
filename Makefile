@@ -8,6 +8,8 @@ format:
 	poetry run isort $(CODE_FOLDERS) $(TEST_FOLDERS)
 	poetry run black $(CODE_FOLDERS) $(TEST_FOLDERS)
 
+test:
+	poetry run pytest $(TEST_FOLDERS)
 
 lint:
 	isort --check $(CODE_FOLDERS) $(TEST_FOLDERS)

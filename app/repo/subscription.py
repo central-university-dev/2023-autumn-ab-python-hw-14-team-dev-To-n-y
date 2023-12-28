@@ -50,7 +50,7 @@ class SubscriptionRepo:
         except ConnectionError as exc:  # ошибка соединения с бд
             raise ConnectionError("Error while connecting to db") from exc
         if subscription is not None:
-            return -1
+            raise ValueError("Subscription already exists")
         new_subscription = Subscription(
             owner_id=owner_id, subscriber_id=subscriber_id
         )

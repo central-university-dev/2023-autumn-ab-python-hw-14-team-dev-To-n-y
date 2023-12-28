@@ -1,15 +1,46 @@
-name: Python application
+name: Static Checks
 
-on: push
-
-permissions:
-  contents: read
+on:
+  push:
+    branches:
+      - '*'
 
 jobs:
-  build:
+  style_check:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: [ "3.11.1" ]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.create false
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Style checking
+        run: |
+          make lint
+
+  tests-check:
+    needs: style_check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: stub env
+        run: cp .env_template .env
+      - name: Build docker image
+        run: docker-compose build
+      - name: Initialize db
+        run: docker-compose run --rm server make db_upgrade
+      - name: Run tests
+        run: docker-compose run --rm server make test
 

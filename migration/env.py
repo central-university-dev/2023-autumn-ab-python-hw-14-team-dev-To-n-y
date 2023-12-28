@@ -2,7 +2,7 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from config import config as conf
+from config import settings
 from alembic import context
 
 from db.db_models import *
@@ -16,7 +16,7 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option("sqlalchemy.url", conf.POSTGRES_URL)
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL_psycopg)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

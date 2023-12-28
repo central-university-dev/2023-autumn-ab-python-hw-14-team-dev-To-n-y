@@ -48,4 +48,4 @@ class PostRepo:
         return None
 
 
-PostRepo.create_post("some_post", "some text", 1)
+# PostRepo.create_post("some_post", "some text", 1)

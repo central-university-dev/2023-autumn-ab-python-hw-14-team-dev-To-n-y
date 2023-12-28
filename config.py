@@ -1,17 +1,19 @@
-import os
-
-from dotenv import load_dotenv
-
-dotenv_path = os.path.join(os.path.dirname(__file__), "docker", ".env")
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Config:
-    POSTGRES_USER = os.environ.get("POSTGRES_USER")
-    POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
-    POSTGRES_DB_NAME = os.environ.get("POSTGRES_DB_NAME")
-    POSTGRES_URL = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@127.0.0.1/{POSTGRES_DB_NAME}"
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+
+    @property
+    def DATABASE_URL_psycopg(self):
+        return (f"postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:"
+                f"{self.POSTGRES_PORT}/{self.POSTGRES_DB}")
 
 
-config = Config()
+settings = Settings()  # type: ignore
