@@ -8,7 +8,7 @@ class SubscriptionRepo:
     @staticmethod
     def get_all_subscribers(
         owner_id: int,
-    ) -> list[Optional[User]]:  # все подписчики
+    ) -> list[User]:  # все подписчики
         session = connect_db()
         users = (
             session.query(User)
@@ -22,7 +22,7 @@ class SubscriptionRepo:
     @staticmethod
     def get_all_owners(
         subscriber_id: int,
-    ) -> list[Optional[User]]:  # все на кого он подписан
+    ) -> list[User]:  # все на кого он подписан
         session = connect_db()
         users = (
             session.query(User)
