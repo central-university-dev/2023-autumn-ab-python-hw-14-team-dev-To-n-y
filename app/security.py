@@ -5,6 +5,8 @@ from config import settings
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+JWT_ALGO = "HS256"
+
 
 def get_hashed_password(password: str) -> str:
     return password_context.hash(password)
@@ -16,7 +18,7 @@ def verify_password(password: str, hashed_pass: str) -> bool:
 
 def create_token(payload: dict) -> str:
     encoded_data = jwt.encode(
-        payload=payload, key=settings.JWT_SECRET, algorithm=settings.JWT_ALGO
+        payload=payload, key=settings.JWT_SECRET, algorithm=JWT_ALGO
     )
 
     return encoded_data
@@ -24,6 +26,6 @@ def create_token(payload: dict) -> str:
 
 def decode_token(token: str) -> dict:
     decoded_data = jwt.decode(
-        jwt=token, key=settings.JWT_SECRET, algorithms=[settings.JWT_ALGO]
+        jwt=token, key=settings.JWT_SECRET, algorithms=[JWT_ALGO]
     )
     return decoded_data

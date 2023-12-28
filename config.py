@@ -10,7 +10,6 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     JWT_SECRET: str
-    JWT_ALGO: str
 
     @property
     def DATABASE_URL_psycopg(self):
