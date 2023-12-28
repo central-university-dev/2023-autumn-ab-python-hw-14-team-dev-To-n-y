@@ -5,3 +5,8 @@ class User(BaseModel):
     username: str
     password: str
     email: str
+
+
+class UserPerf(BaseModel):
+    username: str
+    email: str

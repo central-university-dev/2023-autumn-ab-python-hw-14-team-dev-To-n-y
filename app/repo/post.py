@@ -14,7 +14,7 @@ class PostRepo:
         return post
 
     @staticmethod
-    def get_all_user_posts(author_id) -> list[Optional[Post]]:
+    def get_all_user_posts(author_id) -> list[Post]:
         session = connect_db()
         posts = session.query(Post).filter(Post.author_id == author_id).all()
         return posts
@@ -46,6 +46,3 @@ class PostRepo:
             session.commit()
             return post_id
         return None
-
-
-# PostRepo.create_post("some_post", "some text", 1)

@@ -1,7 +1,7 @@
 [MASTER]
 # Basic settings
 disable=
-    c0116,C0114,C0115,too-few-public-methods
+    c0116,C0114,C0115,E0401,W0707,R0801,too-few-public-methods
 output-format=colorized
 score=yes
 extension-pkg-whitelist=
