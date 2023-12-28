@@ -18,6 +18,7 @@ lint:
 	black --check --line-length 79 --skip-string-normalization $(CODE_FOLDERS) $(TEST_FOLDERS)
 	flake8 $(CODE_FOLDERS) $(TEST_FOLDERS)
 	pylint $(CODE_FOLDERS) $(TEST_FOLDERS)
+	mypy --install-types --non-interactive
 	mypy $(CODE_FOLDERS) $(TEST_FOLDERS)
 
 
