@@ -44,7 +44,7 @@ async def get_owners(subscriber_id: int) -> List[Any]:
 
 @router.post("/")
 async def create_sub(
-    owner_id: int, token: str = Security(api_key_header)
+        owner_id: int, token: str = Security(api_key_header)
 ) -> int | None:
     try:
         payload = decode_token(token)
@@ -72,7 +72,7 @@ async def create_sub(
 
 @router.delete("/")
 async def delete_sub(
-    owner_id: int, token: str = Security(api_key_header)
+        owner_id: int, token: str = Security(api_key_header)
 ) -> bool:
     try:
         payload = decode_token(token)

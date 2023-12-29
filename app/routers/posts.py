@@ -24,7 +24,6 @@ router = APIRouter(
 
 api_key_header = APIKeyHeader(name="Authorization")
 
-
 @router.get("/")
 async def get_post(post_id: int) -> Any:
     post = PostRepo.get_post_by_id(post_id)

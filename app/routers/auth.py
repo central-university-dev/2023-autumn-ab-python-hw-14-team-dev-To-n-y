@@ -14,7 +14,7 @@ router = APIRouter(
 
 @router.post("/login")
 async def login(
-    user: UserLogin = Body(..., embed=True),
+        user: UserLogin = Body(..., embed=True),
 ):
     exist_user = UserRepo().get_user_by_email(user.email)
     if exist_user is None:
@@ -44,7 +44,7 @@ async def login(
 
 @router.post("/register")
 async def register(
-    user: User = Body(..., embed=True),
+        user: User = Body(..., embed=True),
 ):
     exist_user = UserRepo().get_user_by_email(user.email)
     if exist_user is not None:
