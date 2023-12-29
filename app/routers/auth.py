@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, HTTPException
 from starlette.responses import JSONResponse
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 
-from ..models.user import User, UserForm
+from ..models.user import User, UserLogin
 from ..repo.user import UserRepo
 from ..security import create_token, get_hashed_password, verify_password
 
@@ -14,7 +14,7 @@ router = APIRouter(
 
 @router.post("/login")
 async def login(
-    user: UserForm = Body(..., embed=True),
+    user: UserLogin = Body(..., embed=True),
 ):
     exist_user = UserRepo().get_user_by_email(user.email)
     if exist_user is None:

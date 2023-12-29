@@ -7,6 +7,11 @@ class User(BaseModel):
     email: str
 
 
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+
 class UserPerf(BaseModel):
     username: str
     email: str

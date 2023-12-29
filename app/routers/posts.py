@@ -4,6 +4,7 @@ import sqlalchemy
 from fastapi import APIRouter, HTTPException, Security
 from fastapi.security import APIKeyHeader
 from jose import JWTError
+from jwt import DecodeError
 from starlette.status import (
     HTTP_401_UNAUTHORIZED,
     HTTP_403_FORBIDDEN,
@@ -21,7 +22,7 @@ router = APIRouter(
     tags=["Posts"],
 )
 
-api_key_header = APIKeyHeader(name="auth-key")
+api_key_header = APIKeyHeader(name="Authorization")
 
 
 @router.get("/")
@@ -51,7 +52,7 @@ async def create_post(
     try:
         payload = decode_token(token)
         token_data = Token(**payload)
-    except JWTError:
+    except (JWTError, DecodeError):
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials!",

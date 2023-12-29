@@ -1,5 +1,7 @@
 from typing import Optional
 
+from sqlalchemy.exc import IntegrityError
+
 from db.base import connect_db
 from db.db_models import Subscription, User
 
@@ -60,6 +62,8 @@ class SubscriptionRepo:
             session.commit()
             new_subscription_id = int(new_subscription.id)
             return new_subscription_id
+        except IntegrityError:
+            raise ValueError("No such user")
         except ConnectionError as exc:
             raise ConnectionError("Error while connecting to db") from exc
 

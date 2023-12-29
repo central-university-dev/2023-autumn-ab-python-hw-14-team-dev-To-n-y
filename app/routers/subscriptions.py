@@ -19,7 +19,7 @@ router = APIRouter(
     tags=["Subscriptions"],
 )
 
-api_key_header = APIKeyHeader(name="auth-key")
+api_key_header = APIKeyHeader(name="Authorization")
 
 
 @router.get("/{owner_id}")
@@ -58,10 +58,10 @@ async def create_sub(
         new_sub_id = SubscriptionRepo.create_subscription(
             owner_id, token_data.id
         )
-    except ValueError:
+    except ValueError as e:
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
-            detail="Subscription already exists!",
+            detail=e.args[0],
         )
     except ConnectionError:
         raise HTTPException(
