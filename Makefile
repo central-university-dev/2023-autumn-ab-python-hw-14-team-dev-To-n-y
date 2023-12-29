@@ -12,7 +12,7 @@ format:
 	poetry run ruff check --fix-only $(CODE_FOLDERS) $(TEST_FOLDERS)
 
 test:
-	poetry run pytest $(TEST_FOLDERS)
+	poetry run pytest $(TEST_FOLDERS) --cov=app --cov-fail-under=80
 
 lint:
 	isort --profile black --check $(CODE_FOLDERS) $(TEST_FOLDERS)
