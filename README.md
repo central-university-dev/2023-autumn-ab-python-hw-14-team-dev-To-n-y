@@ -61,3 +61,6 @@
 
 ### `TASK-5`
    - Add all handlers implementation
+
+### `TASK-6`
+   - Add ruff linter
