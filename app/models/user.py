@@ -10,3 +10,8 @@ class User(BaseModel):
 class UserPerf(BaseModel):
     username: str
     email: str
+
+
+class UserForm(BaseModel):
+    email: str
+    password: str

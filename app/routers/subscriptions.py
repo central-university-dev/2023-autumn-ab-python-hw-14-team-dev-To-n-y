@@ -19,7 +19,7 @@ router = APIRouter(
     tags=["Subscriptions"],
 )
 
-api_key_header = APIKeyHeader(name="rpc-auth-key")
+api_key_header = APIKeyHeader(name="auth-key")
 
 
 @router.get("/{owner_id}")
